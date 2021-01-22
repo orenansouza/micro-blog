@@ -1,4 +1,4 @@
-const models = require('../../models/user');
+const models = require('../../../models');
 
 function validatePayload({ name, email, password }) {
   if (!name) {
@@ -10,23 +10,40 @@ function validatePayload({ name, email, password }) {
   }
 
   if (!password) {
-    return { isValid: false, message: 'Favor informar o password' };
+    return { isValid: false, message: 'Favor informar a senha' };
   }
 
   return { isValid: true };
 }
 
-exports.createUser = (payload) => {
-  const { isValid, message } = validatePayload(payload);
+exports.createUser = async ({ name, email, password }) => {
+  const { isValid, message } = validatePayload({ name, email, password });
   if (!isValid) {
-    throw new Error({ success: false, message });
+    return { success: false, message };
   }
 
-  return models.User.create({ ...payload })
-    .then((userCreated) => {
-      return { success: true, user: userCreated };
+  return models.User.create({ name, email, password })
+    .then(user => { return { success: true, user } })
+    .catch(err => {
+      if (err.parent.code === '23505') {
+        return { success: false, message: 'Já existe um usuário com este e-mail' }
+
+      }
+
+      return { success: false, message: err.message }
     })
-    .catch((err) => {
-      throw new Error({ success: false, message: err.message });
-    });
 };
+
+exports.login = async ({ email, password }) => {
+  const user = await models.User.findOne({ where: { email } })
+
+  if (!user) {
+    return { success: false, message: "Usuário não existe" }
+  }
+
+  if (user.password !== password) {
+    return { success: false, message: "Email ou senha inválido" }
+  }
+
+  return { success: true, message: "Login realizado com sucesso" }
+}

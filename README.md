@@ -15,6 +15,9 @@ Clonando o projeto: `git clone https://github.com/orenansouza/registration-api.g
 
 Vá a raiz do seu projeto inicie o banco de dados com o comando `docker-compose up`.
 
+**Iniciando tabelas do banco de dados**
+Vá a raiz do seu projeto e rode o comando `npx sequelize-cli db:migrate`
+
 **Iniciando o projeto**
 
 Vá a raiz do seu projeto inicie a API com o comando `yarn start`.
@@ -26,7 +29,8 @@ Vá a raiz do seu projeto inicie a API com o comando `yarn start`.
 ```json
 {
   "name": "username",
-  "email": "email@email.com"
+  "email": "email@email.com",
+  "passowrd": "password"
 }
 ```
 

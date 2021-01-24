@@ -30,5 +30,5 @@ exports.createPost = async (req, res) => {
 exports.listAllPosts = async (req, res) => {
   const posts = await service.listAllPosts(req.query)
 
-  res.status(200).json({ success: true, posts })
+  res.status(200).json({ success: true, pagination: posts.pagination, content: posts.posts })
 }

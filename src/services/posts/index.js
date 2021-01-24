@@ -1,4 +1,5 @@
 const models = require('../../../models')
+const CommentService = require('../comments')
 
 function responseWithPagination(data, page, limit) {
   const { count: totalItems, rows: posts } = data
@@ -25,12 +26,17 @@ exports.createPost = async ({ text, user_id }) => {
 exports.listAllPosts = async ({ page = 0, limit = 10 }) => {
   const offset = page ? page * limit : 0
 
-  const posts = await models.Post.findAndCountAll({
+  const data = await models.Post.findAndCountAll({
     limit,
     offset,
     order: [['createdAt', 'DESC']],
     where: {},
   })
 
-  return responseWithPagination(posts, page, limit)
+  for (post of data.rows) {
+    const comments = await CommentService.listCommentByPost(post.id)
+    post.dataValues.comments = comments
+  }
+
+  return responseWithPagination(data, page, limit)
 }

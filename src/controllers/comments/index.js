@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const service = require('../comments')
+const service = require('../../services/comments')
 
 exports.createComment = async (req, res) => {
   let authorization = req.headers.authorization

@@ -15,5 +15,5 @@ exports.createComment = async ({ text, post_id, user_id }) => {
 }
 
 exports.listCommentByPost = async (post_id) => {
-  return models.Comment.findAndCountAll({ order: [['createdAt', 'DESC']], where: { post_id } })
+  return models.Comment.findAndCountAll({ order: [['createdAt', 'DESC']], where: { post_id }, include: models.User })
 }

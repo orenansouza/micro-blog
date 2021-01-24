@@ -60,3 +60,7 @@ exports.login = async ({ email, password }) => {
 
   return { success: true, message: 'Login realizado com sucesso', token }
 }
+
+exports.getUserById = async ({ user_id }) => {
+  return models.User.findByPk(user_id)
+}

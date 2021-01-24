@@ -25,7 +25,7 @@ Vá a raiz do seu projeto e rode o comando `npx sequelize-cli db:migrate`
 Vá a raiz do seu projeto inicie a API com o comando `yarn start` ou `npm run start` conforme preferir.
 Caso queira debugar inicie a API com o comando `yarn dev` ou `npm run dev` conforme preferir.
 
-### POST `http://localhost:3000/user/`
+### POST `http://localhost:3333/user/`
 
 - Payload:
 
@@ -51,7 +51,7 @@ Este método irá criar um usuário no banco de dados e caso sucesso deve retorn
 }
 ```
 
-### POST `http://localhost:3000/user/login`
+### POST `http://localhost:3333/user/login`
 
 - Payload:
 
@@ -71,7 +71,7 @@ Este método irá realizar login e caso sucesso deve retornar:
 }
 ```
 
-### POST `http://localhost:3000/post`
+### POST `http://localhost:3333/post`
 
 - Payload:
 
@@ -95,7 +95,7 @@ Este método irá criar uma publicação e caso sucesso deve retornar:
 }
 ```
 
-### POST `http://localhost:3000/comment`
+### POST `http://localhost:3333/comment`
 
 - Payload:
 
@@ -120,7 +120,7 @@ Este método irá criar um comentário e caso sucesso deve retornar:
 }
 ```
 
-### GET `http://localhost:3000/posts`
+### GET `http://localhost:3333/posts`
 
 Este método irá retornar as publicações:
 

@@ -1,15 +1,17 @@
-# Registration API
+# Micro Blog
 
-API para registrar um usuário com nome e email.
+API para um micro blog.
 
-Nosso projeto irá utilizar o banco de dados mysql e nodejs.
-Para rodar nosso banco de dados mysql iremos utilizar o docker.
+Nosso projeto irá utilizar o banco de dados postgresql e nodejs.
+Para rodar nosso banco de dados postgresql iremos utilizar o docker com docker-compose.
 
 **Instalação**
 
 Instalação do docker conforme seu sistema operacional: https://docs.docker.com/engine/install/.
 
-Clonando o projeto: `git clone https://github.com/orenansouza/registration-api.git`.
+Instalação do docker-compose conforme seu sistema operacional: https://docs.docker.com/compose/install/
+
+Para finalizar a instalação da API clone o projeto no link a seguir: `git clone https://github.com/orenansouza/micro-blog.git`.
 
 **Iniciando o banco de dados**
 
@@ -20,21 +22,21 @@ Vá a raiz do seu projeto e rode o comando `npx sequelize-cli db:migrate`
 
 **Iniciando o projeto**
 
-Vá a raiz do seu projeto inicie a API com o comando `yarn start`.
+Vá a raiz do seu projeto inicie a API com o comando `yarn start` ou `npm run start` conforme preferir.
+Caso queira debugar inicie a API com o comando `yarn dev` ou `npm run dev` conforme preferir.
 
 ### POST `http://localhost:3000/user/`
 
 - Payload:
 
 ```json
-{
   "name": "username",
   "email": "email@email.com",
   "passowrd": "password"
 }
 ```
 
-Este método irá criar um usuário no banco de dados e retornar:
+Este método irá criar um usuário no banco de dados e caso sucesso deve retornar:
 
 ```json
 {
@@ -49,9 +51,78 @@ Este método irá criar um usuário no banco de dados e retornar:
 }
 ```
 
-### GET `http://localhost:3000/users/`
+### POST `http://localhost:3000/user/login`
 
-Este método irá retornar uma listagem dos usuários com paginação conforme abaixo:
+- Payload:
+
+```json
+  "email": "email@email.com",
+  "passowrd": "password"
+}
+```
+
+Este método irá realizar login e caso sucesso deve retornar:
+
+```json
+{
+  "success": true,
+  "message": "Login realizado com sucesso",
+  "token": "Token de authenticação"
+}
+```
+
+### POST `http://localhost:3000/post`
+
+- Payload:
+
+```json
+  "text": "Texto da publicação"
+}
+```
+
+Este método irá criar uma publicação e caso sucesso deve retornar:
+
+```json
+{
+  "success": true,
+  "post": {
+    "id": "Id da publicação",
+    "text": "Texto da publicação",
+    "user_id": "Usuário que está publicando",
+    "updatedAt": "2021-01-24T02:17:30.306Z",
+    "createdAt": "2021-01-24T02:17:30.306Z"
+  }
+}
+```
+
+### POST `http://localhost:3000/comment`
+
+- Payload:
+
+```json
+  "text": "Texto do comentário",
+  "post_id": "ID da publicação a qual está sendo comentado"
+}
+```
+
+Este método irá criar um comentário e caso sucesso deve retornar:
+
+```json
+{
+  "success": true,
+  "post": {
+    "id": "ID do comentário",
+    "text": "Texto do comentário",
+    "user_id": "Usuário que está publicando",
+    "updatedAt": "2021-01-24T02:17:30.306Z",
+    "createdAt": "2021-01-24T02:17:30.306Z"
+  }
+}
+```
+
+### GET `http://localhost:3000/posts`
+
+Este método irá retornar as publicações:
 
 ```json
 {
@@ -61,41 +132,28 @@ Este método irá retornar uma listagem dos usuários com paginação conforme a
     "totalPages": 1,
     "currentPage": 1
   },
-  "users": [
+  "content": [
     {
-      "id": 1,
-      "name": "username",
-      "email": "email@email.com",
-      "createdAt": "2020-09-11T03:58:04.000Z",
-      "updatedAt": "2020-09-11T04:01:19.000Z"
+      "id": "ID da publicação",
+      "text": "Texto da publicação",
+      "user_id": "Usuário que está publicando",
+      "createdAt": "2021-01-23T01:33:23.172Z",
+      "updatedAt": "2021-01-23T01:33:23.172Z",
+      "comments": {
+        "count": 2,
+        "rows": [
+          {
+            "id": "ID do comentário",
+            "text": "Texto do comentário",
+            "user_id": "Usuário que está publicando",
+            "post_id": "ID da publicação a qual está sendo comentado",
+            "createdAt": "2021-01-24T02:25:24.413Z",
+            "updatedAt": "2021-01-24T02:25:24.413Z"
+          }
+        ]
+      }
     }
   ]
 }
 ```
 
-### PUT `http://localhost:3000/user/:id`
-
-- Payload:
-
-```json
-{
-  "name": "username novo",
-  "email": "email_novo@email.com"
-}
-```
-
-Este método irá atualizar o usuário pelos novos dados informado no payload e irá retornar:
-
-````json
-{
-  "success": true,
-  "user": {
-    "id": 1,
-    "name": "Renan",
-    "email": "renan2@email.com",
-    "createdAt": "2020-09-11T03:58:04.000Z",
-    "updatedAt": "2020-09-11T04:01:19.000Z"
-  }
-}
-```
-````

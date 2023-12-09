@@ -11,7 +11,7 @@ Instalação do docker conforme seu sistema operacional: https://docs.docker.com
 
 Instalação do docker-compose conforme seu sistema operacional: https://docs.docker.com/compose/install/
 
-Para finalizar a instalação da API clone o projeto no link a seguir: `git clone https://github.com/orenansouza/micro-blog.git`.
+Para finalizar a instalação da API clone o projeto no link a seguir: `git clone [https://github.com/orenansouza/micro-blog.git](https://github.com/orenansouza/micro-blog-api.git)`.
 
 **Iniciando o banco de dados**
 
